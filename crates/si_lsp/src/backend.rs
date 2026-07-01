@@ -77,17 +77,17 @@ impl Backend {
                 prepare_provider: Some(false),
                 work_done_progress_options: Default::default(),
             })),
-            semantic_tokens_provider: Some(
-                SemanticTokensServerCapabilities::SemanticTokensOptions(SemanticTokensOptions {
-                    work_done_progress_options: Default::default(),
-                    legend: crate::semantic_tokens::legend(),
-                    range: None,
-                    full: Some(SemanticTokensFullOptions::Bool(true)),
-                }),
-            ),
+            // semantic_tokens_provider: Some(
+            //     SemanticTokensServerCapabilities::SemanticTokensOptions(SemanticTokensOptions {
+            //         work_done_progress_options: Default::default(),
+            //         legend: crate::semantic_tokens::legend(),
+            //         range: None,
+            //         full: Some(SemanticTokensFullOptions::Bool(true)),
+            //     }),
+            // ),
+            document_highlight_provider: Some(OneOf::Left(true)),
             document_symbol_provider: Some(OneOf::Left(true)),
             workspace_symbol_provider: Some(OneOf::Left(true)),
-            document_highlight_provider: Some(OneOf::Left(true)),
             code_action_provider: Some(lsp_types::CodeActionProviderCapability::Simple(true)),
             ..ServerCapabilities::default()
         }

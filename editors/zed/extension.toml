@@ -1,6 +1,6 @@
 id = "siscript"
 name = "Siscript"
-version = "0.1.0"
+version = "0.2.0"
 schema_version = 1
 authors = ["Suleyman"]
 description = "Siscript language support for Zed"
@@ -13,3 +13,7 @@ version = "0.7.0"
 [language_servers.siscript-lsp]
 name = "Siscript LSP"
 languages = ["Siscript"]
+
+[grammars.siscript]
+repository = "file://./tree-sitter-siscript"
+rev = "main"

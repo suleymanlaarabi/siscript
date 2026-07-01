@@ -1,0 +1,31 @@
+{
+  "grammars": [
+    {
+      "name": "siscript",
+      "camelcase": "Siscript",
+      "scope": "source.siscript",
+      "path": ".",
+      "file-types": ["si", "lang"],
+      "highlights": ["queries/highlights.scm"],
+      "injection-regex": "^(si|siscript)$"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "Tree-sitter grammar for Siscript editor tooling",
+    "authors": [
+      {
+        "name": "Suleyman"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/suleyman/projects/siscript"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "node": false,
+    "rust": false
+  }
+}

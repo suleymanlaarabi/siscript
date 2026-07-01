@@ -1,5 +1,7 @@
 /target
 /Cargo.lock
 /editors/zed/target
+/editors/zed/tree-sitter-siscript/src
+/editors/zed/tree-sitter-siscript/node_modules
 /editors/vscode/node_modules
 /editors/vscode/out

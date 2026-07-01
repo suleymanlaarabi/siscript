@@ -1,4 +1,4 @@
 name = "Siscript"
-grammar = "rust"
-path_suffixes = ["si"]
+grammar = "siscript"
+path_suffixes = ["si", "lang"]
 line_comments = ["// "]

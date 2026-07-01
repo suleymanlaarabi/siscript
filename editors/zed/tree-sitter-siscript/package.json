@@ -1,0 +1,21 @@
+{
+  "name": "tree-sitter-siscript",
+  "version": "0.1.0",
+  "description": "Tree-sitter grammar for Siscript editor tooling",
+  "main": "grammar.js",
+  "license": "MIT",
+  "devDependencies": {
+    "tree-sitter-cli": "^0.25.10"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.siscript",
+      "file-types": ["si", "lang"],
+      "highlights": "queries/highlights.scm"
+    }
+  ],
+  "scripts": {
+    "generate": "tree-sitter generate --abi=14",
+    "parse": "tree-sitter parse"
+  }
+}
