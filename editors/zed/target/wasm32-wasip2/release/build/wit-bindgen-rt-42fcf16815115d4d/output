@@ -1,0 +1,2 @@
+cargo:rustc-link-lib=static=wit_bindgen_cabi_realloc0_41_0
+cargo:rustc-link-search=native=/home/suleyman/projects/siscript/editors/zed/target/wasm32-wasip2/release/build/wit-bindgen-rt-42fcf16815115d4d/out

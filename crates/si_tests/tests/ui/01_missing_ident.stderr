@@ -1,0 +1,1 @@
+tests/ui/01_missing_ident.si:1: parser error: ExpectedIdentifier

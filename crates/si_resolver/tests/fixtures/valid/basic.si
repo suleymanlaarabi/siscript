@@ -1,0 +1,11 @@
+struct Point { x: i32, y: i32 }
+enum Color { Red, Blue }
+const LIMIT: i32 = 10;
+extern fn host();
+export fn tick() {
+    host()
+}
+fn main() {
+    let p: Point = Point { x: 1, y: LIMIT };
+    Color::Red
+}

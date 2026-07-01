@@ -1,0 +1,74 @@
+{
+  "name": "siscript",
+  "displayName": "Siscript Language Support",
+  "description": "Language support for Siscript, including syntax highlighting and LSP client integration.",
+  "version": "0.1.0",
+  "publisher": "siscript",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onLanguage:siscript"
+  ],
+  "main": "./out/extension.js",
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^8.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.7",
+    "@types/vscode": "^1.75.0",
+    "typescript": "^5.0.0"
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "siscript",
+        "aliases": [
+          "Siscript",
+          "siscript"
+        ],
+        "extensions": [
+          ".si",
+          ".si"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "siscript",
+        "scopeName": "source.siscript",
+        "path": "./syntaxes/language.tmLanguage.json"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Siscript",
+      "properties": {
+        "siscript.lsp.path": {
+          "type": "string",
+          "default": "si-lsp",
+          "description": "Path to the si-lsp server executable."
+        },
+        "siscript.lsp.trace": {
+          "type": "string",
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
+          "default": "off",
+          "description": "Trace level for the LSP server."
+        }
+      }
+    }
+  }
+}

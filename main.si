@@ -1,0 +1,15 @@
+
+
+extern fn print();
+
+fn main() {
+    let mut x: i32 = 1;
+
+    x = x + 1;
+
+    print();
+
+    let aa = "sasa";
+
+    return x;
+}

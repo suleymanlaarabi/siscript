@@ -1,0 +1,7 @@
+fn main() {
+    let mut value: i32 = 1;
+    match value {
+        zero => 10,
+        _ => value,
+    }
+}

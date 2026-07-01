@@ -1,6 +1,17 @@
-[package]
-name = "siscript"
-version = "0.1.0"
-edition = "2024"
-
-[dependencies]
+[workspace]
+members = [
+    "crates/si_ast",
+    "crates/si_bytecode",
+    "crates/si_cli",
+    "crates/si_core",
+    "crates/si_diagnostics",
+    "crates/si_lexer",
+    "crates/si_lowering",
+    "crates/si_lsp",
+    "crates/si_parser",
+    "crates/si_resolver",
+    "crates/si_typecheck",
+    "crates/si_vm",
+    "crates/si_tests",
+]
+resolver = "2"

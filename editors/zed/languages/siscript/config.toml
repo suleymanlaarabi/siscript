@@ -1,0 +1,4 @@
+name = "Siscript"
+grammar = "rust"
+path_suffixes = ["si"]
+line_comments = ["// "]

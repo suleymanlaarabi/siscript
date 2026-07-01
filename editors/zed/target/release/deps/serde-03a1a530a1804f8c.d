@@ -1,0 +1,14 @@
+/home/suleyman/projects/siscript/editors/zed/target/release/deps/serde-03a1a530a1804f8c.d: /home/suleyman/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs /home/suleyman/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs /home/suleyman/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs /home/suleyman/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs /home/suleyman/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs /home/suleyman/projects/siscript/editors/zed/target/release/build/serde-4c618aaa64eda3ee/out/private.rs
+
+/home/suleyman/projects/siscript/editors/zed/target/release/deps/libserde-03a1a530a1804f8c.rlib: /home/suleyman/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs /home/suleyman/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs /home/suleyman/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs /home/suleyman/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs /home/suleyman/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs /home/suleyman/projects/siscript/editors/zed/target/release/build/serde-4c618aaa64eda3ee/out/private.rs
+
+/home/suleyman/projects/siscript/editors/zed/target/release/deps/libserde-03a1a530a1804f8c.rmeta: /home/suleyman/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs /home/suleyman/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs /home/suleyman/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs /home/suleyman/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs /home/suleyman/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs /home/suleyman/projects/siscript/editors/zed/target/release/build/serde-4c618aaa64eda3ee/out/private.rs
+
+/home/suleyman/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs:
+/home/suleyman/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs:
+/home/suleyman/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs:
+/home/suleyman/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs:
+/home/suleyman/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs:
+/home/suleyman/projects/siscript/editors/zed/target/release/build/serde-4c618aaa64eda3ee/out/private.rs:
+
+# env-dep:OUT_DIR=/home/suleyman/projects/siscript/editors/zed/target/release/build/serde-4c618aaa64eda3ee/out

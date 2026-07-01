@@ -1,0 +1,9 @@
+[package]
+name = "si_lexer"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+si_core = { path = "../si_core" }
+si_diagnostics = { path = "../si_diagnostics" }
+

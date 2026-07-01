@@ -1,0 +1,26 @@
+[package]
+name = "si_lsp"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "si-lsp"
+path = "src/main.rs"
+
+[dependencies]
+dashmap = "6.1"
+lsp-types = "0.94"
+ropey = "1.6"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1.38", features = ["io-std", "macros", "rt-multi-thread", "time"] }
+tower-lsp = "0.20"
+tracing = "0.1"
+
+si_ast = { path = "../si_ast" }
+si_core = { path = "../si_core" }
+si_diagnostics = { path = "../si_diagnostics" }
+si_lexer = { path = "../si_lexer" }
+si_parser = { path = "../si_parser" }
+si_resolver = { path = "../si_resolver" }
+si_typecheck = { path = "../si_typecheck" }

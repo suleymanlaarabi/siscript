@@ -1,0 +1,11 @@
+[package]
+name = "si_vm"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+si_bytecode = { path = "../si_bytecode" }
+si_core = { path = "../si_core" }
+
+[dev-dependencies]
+si_ast = { path = "../si_ast" }

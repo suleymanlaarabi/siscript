@@ -1,0 +1,12 @@
+[package]
+name = "si_tests"
+version = "0.1.0"
+edition = "2024"
+
+[dev-dependencies]
+si_ast = { path = "../si_ast" }
+si_core = { path = "../si_core" }
+si_diagnostics = { path = "../si_diagnostics" }
+si_lexer = { path = "../si_lexer" }
+si_parser = { path = "../si_parser" }
+

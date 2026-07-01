@@ -1,0 +1,46 @@
+#![forbid(unsafe_code)]
+
+use crate::function::FunctionId;
+use crate::module::ExternId;
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum Instruction {
+    Const(u32),
+    LoadLocal(u32),
+    StoreLocal(u32),
+    LoadField(u32),
+    StoreField(u32),
+    MakeStruct { struct_id: u32, field_count: u32 },
+    MakeTuple(u32),
+    MakeArray(u32),
+    LoadIndex,
+    StoreIndex,
+    Slice,
+    EnumVariant { enum_id: u32, variant_id: u32 },
+    AddI32,
+    SubI32,
+    MulI32,
+    DivI32,
+    ModI32,
+    AddF32,
+    SubF32,
+    MulF32,
+    DivF32,
+    Eq,
+    Ne,
+    Lt,
+    Le,
+    Gt,
+    Ge,
+    Not,
+    NegI32,
+    NegF32,
+    RefLocal { local: u32, mutable: bool },
+    Jump(u32),
+    JumpIfFalse(u32),
+    Call { function: FunctionId, argc: u32 },
+    CallExtern { function: ExternId, argc: u32 },
+    Return,
+    Pop,
+    Dup,
+}
