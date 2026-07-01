@@ -7,11 +7,9 @@ use lsp_types::{
     DocumentHighlight, DocumentHighlightParams, DocumentSymbolParams, DocumentSymbolResponse,
     GotoDefinitionParams, GotoDefinitionResponse, Hover, HoverParams, HoverProviderCapability,
     InitializeParams, InitializeResult, InitializedParams, MessageType, OneOf, ReferenceParams,
-    RenameOptions, RenameParams, SemanticTokensFullOptions, SemanticTokensOptions,
-    SemanticTokensParams, SemanticTokensResult, SemanticTokensServerCapabilities,
-    ServerCapabilities, SignatureHelp, SignatureHelpParams, SymbolInformation,
-    TextDocumentPositionParams, TextDocumentSyncCapability, TextDocumentSyncKind, Url,
-    WorkspaceSymbolParams,
+    RenameOptions, RenameParams, SemanticTokensParams, SemanticTokensResult, ServerCapabilities,
+    SignatureHelp, SignatureHelpParams, SymbolInformation, TextDocumentPositionParams,
+    TextDocumentSyncCapability, TextDocumentSyncKind, Url, WorkspaceSymbolParams,
 };
 use tower_lsp::async_trait;
 use tower_lsp::{Client, LanguageServer};
