@@ -177,25 +177,7 @@ pub fn completion(
                                     None,
                                 ));
                             }
-                            // Struct methods
-                            for entry in &analysis.symbol_index.entries {
-                                let is_method = (entry.kind == SymbolEntryKind::Function
-                                    || entry.kind == SymbolEntryKind::ExportFunction
-                                    || entry.kind == SymbolEntryKind::ExternFunction)
-                                    && (entry.parent.as_deref() == Some(clean_ty)
-                                        || entry.name.starts_with(&format!("{clean_ty}::")));
-                                if is_method {
-                                    let name_clean = if let Some(stripped) =
-                                        entry.name.strip_prefix(&format!("{clean_ty}::"))
-                                    {
-                                        stripped.to_string()
-                                    } else {
-                                        entry.name.clone()
-                                    };
-                                    let sig = entry.detail.clone().unwrap_or_default();
-                                    items.push(method_item(&name_clean, "01_", &sig, config));
-                                }
-                            }
+                            add_struct_receiver_methods(&mut items, s_item, is_mut, config);
                         }
                     }
                 }
@@ -214,25 +196,7 @@ pub fn completion(
                             ));
                         }
                     } else if let Some(s_item) = crate::analysis::find_struct_item(ast, path) {
-                        // Struct static methods
-                        for entry in &analysis.symbol_index.entries {
-                            let is_method = (entry.kind == SymbolEntryKind::Function
-                                || entry.kind == SymbolEntryKind::ExportFunction
-                                || entry.kind == SymbolEntryKind::ExternFunction)
-                                && (entry.parent.as_deref() == Some(&s_item.name)
-                                    || entry.name.starts_with(&format!("{}::", s_item.name)));
-                            if is_method {
-                                let name_clean = if let Some(stripped) =
-                                    entry.name.strip_prefix(&format!("{}::", s_item.name))
-                                {
-                                    stripped.to_string()
-                                } else {
-                                    entry.name.clone()
-                                };
-                                let sig = entry.detail.clone().unwrap_or_default();
-                                items.push(method_item(&name_clean, "01_", &sig, config));
-                            }
-                        }
+                        add_struct_associated_methods(&mut items, s_item, config);
                     }
                 }
             }
@@ -419,6 +383,57 @@ fn add_types(items: &mut Vec<CompletionItem>, analysis: &AnalysisResult) {
                 items.push(item(&entry.name, k, "03_", entry.detail.clone(), None));
             }
         }
+    }
+}
+
+fn add_struct_associated_methods(
+    items: &mut Vec<CompletionItem>,
+    s_item: &si_ast::item::StructItem,
+    config: &crate::config::LspConfig,
+) {
+    for method in &s_item.methods {
+        if method.params.first().is_some_and(|param| param.name == "self") {
+            continue;
+        }
+        let sig = struct_method_signature(method);
+        items.push(method_item(&method.name, "01_", &sig, config));
+    }
+}
+
+fn add_struct_receiver_methods(
+    items: &mut Vec<CompletionItem>,
+    s_item: &si_ast::item::StructItem,
+    receiver_is_mut: bool,
+    config: &crate::config::LspConfig,
+) {
+    for method in &s_item.methods {
+        let Some(self_param) = method.params.first().filter(|param| param.name == "self") else {
+            continue;
+        };
+        if self_param_is_mut(self_param) && !receiver_is_mut {
+            continue;
+        }
+        let sig = struct_method_signature(method);
+        items.push(method_item(&method.name, "01_", &sig, config));
+    }
+}
+
+fn self_param_is_mut(param: &si_ast::item::FunctionParam) -> bool {
+    matches!(&param.ty.kind, si_ast::ty::TypeKind::Ref { mutable: true, .. })
+}
+
+fn struct_method_signature(method: &si_ast::item::FunctionItem) -> String {
+    let params = method
+        .params
+        .iter()
+        .map(|param| format!("{}: {}", param.name, crate::analysis::type_to_string(&param.ty)))
+        .collect::<Vec<_>>()
+        .join(", ");
+    match &method.return_ty {
+        Some(ty) => {
+            format!("fn {}({params}) -> {}", method.name, crate::analysis::type_to_string(ty))
+        }
+        None => format!("fn {}({params})", method.name),
     }
 }
 
@@ -730,16 +745,12 @@ pub fn derive_context(
                                     }
                                 }
                                 if let Some(local) = latest_local {
-                                    let mut is_mut = false;
-                                    if let Some(span) = local.def_id.and_then(|id| {
-                                        analysis.definition_index.definitions.get(&id).copied()
-                                    }) {
-                                        let mut finder = MutabilityFinder { span, found_mut: None };
-                                        if let Some(body) = &f.body {
-                                            finder.block(body);
-                                        }
-                                        is_mut = finder.found_mut.unwrap_or(false);
+                                    let mut finder =
+                                        MutabilityFinder { span: local.span, found_mut: None };
+                                    if let Some(body) = &f.body {
+                                        finder.block(body);
                                     }
+                                    let is_mut = finder.found_mut.unwrap_or(false);
                                     let ty = local.detail.clone();
                                     type_found =
                                         Some((ty.unwrap_or_else(|| "void".to_string()), is_mut));
@@ -863,6 +874,61 @@ mod tests {
     }
 
     #[test]
+    fn completion_struct_associated_and_receiver_methods() {
+        let uri = Url::parse("file:///completion_methods.si").unwrap();
+        let text = r#"
+struct Position {
+    x: i32,
+
+    fn default() -> Position {
+        Position { x: 0 }
+    }
+
+    fn get_x(&self) -> i32 {
+        self.x
+    }
+
+    fn set_x(&mut self, value: i32) {
+        self.x = value
+    }
+}
+
+fn main() {
+    let p: Position = Position { x: 1 }
+    let mut mp: Position = Position { x: 2 }
+    Position::
+    p.
+    mp.
+}
+"#;
+        let document = Document::new(uri.clone(), Some(1), text);
+        let analysis =
+            crate::analysis::analyze_source(&uri, Some(1), std::sync::Arc::new(text.to_string()));
+        let config = crate::config::LspConfig::default();
+
+        let associated =
+            completion(&document, position_after(text, "Position::"), &analysis, &config).unwrap();
+        let associated_labels = labels(associated);
+        assert!(associated_labels.contains(&"default".to_string()));
+        assert!(!associated_labels.contains(&"get_x".to_string()));
+        assert!(!associated_labels.contains(&"set_x".to_string()));
+
+        let receiver =
+            completion(&document, position_after(text, "p."), &analysis, &config).unwrap();
+        let receiver_labels = labels(receiver);
+        assert!(receiver_labels.contains(&"x".to_string()));
+        assert!(receiver_labels.contains(&"get_x".to_string()));
+        assert!(!receiver_labels.contains(&"default".to_string()));
+        assert!(!receiver_labels.contains(&"set_x".to_string()));
+
+        let mutable_receiver =
+            completion(&document, position_after(text, "mp."), &analysis, &config).unwrap();
+        let mutable_receiver_labels = labels(mutable_receiver);
+        assert!(mutable_receiver_labels.contains(&"get_x".to_string()));
+        assert!(mutable_receiver_labels.contains(&"set_x".to_string()));
+    }
+
+    #[test]
     fn test_completion_all_cases() {
         let uri = Url::parse("file:///completion_cases.si").unwrap();
         let text = r#"
@@ -923,5 +989,20 @@ fn add(a: i32) {
                 list.items.into_iter().map(|item| item.label).collect()
             }
         }
+    }
+
+    fn position_after(text: &str, needle: &str) -> Position {
+        let offset = text.find(needle).unwrap() + needle.len();
+        let mut line = 0;
+        let mut character = 0;
+        for ch in text[..offset].chars() {
+            if ch == '\n' {
+                line += 1;
+                character = 0;
+            } else {
+                character += 1;
+            }
+        }
+        Position::new(line, character)
     }
 }

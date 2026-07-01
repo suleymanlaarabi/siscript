@@ -79,6 +79,9 @@ impl SymbolBuilder<'_> {
                         parent: Some(data.name.clone()),
                     });
                 }
+                for method in &data.methods {
+                    self.struct_method(item, &data.name, method);
+                }
             }
             ItemKind::Enum(data) => {
                 self.push(EntrySeed {
@@ -138,6 +141,32 @@ impl SymbolBuilder<'_> {
             node_id: item.id,
             detail: Some(function_signature(function)),
             parent: None,
+        });
+        for param in &function.params {
+            self.entries.push(SymbolEntry {
+                name: param.name.clone(),
+                kind: SymbolEntryKind::Parameter,
+                span: param.span,
+                selection_span: param.span,
+                def_id: self.def_for_span_name(param.span, &param.name),
+                detail: Some(type_to_string(&param.ty)),
+                parent: Some(function.name.clone()),
+            });
+        }
+        if let Some(body) = &function.body {
+            self.block(body);
+        }
+    }
+
+    fn struct_method(&mut self, item: &Item, struct_name: &str, function: &FunctionItem) {
+        self.entries.push(SymbolEntry {
+            name: function.name.clone(),
+            kind: SymbolEntryKind::Function,
+            span: item.span,
+            selection_span: item.span,
+            def_id: self.def_for_kind_name(DefKind::Method, &function.name),
+            detail: Some(function_signature(function)),
+            parent: Some(struct_name.to_string()),
         });
         for param in &function.params {
             self.entries.push(SymbolEntry {
@@ -413,8 +442,20 @@ impl SpanCollector<'_> {
                     self.block(body);
                 }
             }
+            ItemKind::Struct(data) => {
+                for field in &data.fields {
+                    if let Some(default) = &field.default {
+                        self.expr(default);
+                    }
+                }
+                for method in &data.methods {
+                    if let Some(body) = &method.body {
+                        self.block(body);
+                    }
+                }
+            }
             ItemKind::Const(data) => self.expr(&data.value),
-            ItemKind::Struct(_) | ItemKind::Enum(_) | ItemKind::TypeAlias(_) => {}
+            ItemKind::Enum(_) | ItemKind::TypeAlias(_) => {}
         }
     }
 

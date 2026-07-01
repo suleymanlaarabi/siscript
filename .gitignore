@@ -1,2 +1,5 @@
 /target
 /Cargo.lock
+/editors/zed/target
+/editors/vscode/node_modules
+/editors/vscode/out
